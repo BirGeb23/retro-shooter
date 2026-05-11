@@ -5,14 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Retro Shooter</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             overflow: hidden;
             background: #000;
         }
@@ -25,12 +20,53 @@
             object-fit: contain;
             background: #000;
         }
+        /* Safari audio unlock overlay */
+        #audio-unlock {
+            display: none;
+            position: fixed;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,0,77,0.85);
+            color: #fff;
+            font-family: monospace;
+            font-size: 11px;
+            letter-spacing: 2px;
+            padding: 6px 14px;
+            border-radius: 2px;
+            pointer-events: none;
+            z-index: 10;
+        }
+        #audio-unlock.visible { display: block; }
     </style>
 </head>
 <body>
     <canvas id="game" width="480" height="270"></canvas>
+    <div id="audio-unlock">TAP ANYWHERE TO ENABLE SOUND</div>
+
     <script src="sprites.js"></script>
     <script src="audio.js"></script>
     <script src="game.js"></script>
+
+    <script>
+        // Safari audio unlock — trigger on ANY first interaction
+        const unlockBanner = document.getElementById('audio-unlock');
+
+        // Show the banner on Safari
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        if (isSafari) unlockBanner.classList.add('visible');
+
+        function handleFirstInteraction() {
+            audio.unlock();
+            unlockBanner.classList.remove('visible');
+            document.removeEventListener('click',      handleFirstInteraction);
+            document.removeEventListener('touchstart', handleFirstInteraction);
+            document.removeEventListener('keydown',    handleFirstInteraction);
+        }
+
+        document.addEventListener('click',      handleFirstInteraction);
+        document.addEventListener('touchstart', handleFirstInteraction);
+        document.addEventListener('keydown',    handleFirstInteraction);
+    </script>
 </body>
 </html>
