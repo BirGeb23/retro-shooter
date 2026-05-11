@@ -1,5 +1,5 @@
 // sprites.js — PICO-8 palette, programmatic pixel art, and sprite rendering
-
+ 
 const PALETTE = [
     '#000000', // 0: black (transparent)
     '#1D2B53', // 1: dark blue
@@ -18,7 +18,7 @@ const PALETTE = [
     '#FF77A8', // E: pink
     '#FFCCAA', // F: peach
 ];
-
+ 
 // Sprite definitions — each row is a string, each char maps to a palette index
 // '.' = transparent
 const SPRITE_DATA = {
@@ -73,7 +73,7 @@ const SPRITE_DATA = {
         '............',
         '............',
     ],
-
+ 
     // Crosshair / aiming reticle, 7x7
     crosshair: [
         '...8...',
@@ -84,7 +84,7 @@ const SPRITE_DATA = {
         '...8...',
         '...8...',
     ],
-
+ 
     // Crawler enemy, 10x10
     crawler: [
         '..888888..',
@@ -98,7 +98,7 @@ const SPRITE_DATA = {
         '..888888..',
         '..........',
     ],
-
+ 
     // Sprinter enemy, 8x8 (sleeker, angular)
     sprinter: [
         '..9999..',
@@ -110,7 +110,7 @@ const SPRITE_DATA = {
         '..9999..',
         '........',
     ],
-
+ 
     // Shooter enemy, 12x12 (has a gun protrusion)
     shooter: [
         '....1111....',
@@ -126,7 +126,7 @@ const SPRITE_DATA = {
         '....1111....',
         '............',
     ],
-
+ 
     // Tank enemy, 16x16 (big, chunky)
     tank: [
         '....2222222.....',
@@ -146,7 +146,35 @@ const SPRITE_DATA = {
         '....2222222....',
         '................',
     ],
-
+ 
+    // BOSS — 24x24, intimidating purple+red hulk with glowing eye
+    boss: [
+        '........22222222........',
+        '......2222222222222.....',
+        '.....222222222222222....',
+        '....22222EEEEEE22222....',
+        '...2222EE8EEEE8EE222....',
+        '...222EE88EEEE88EE22....',
+        '..2222EEEEEEEEEEEE222...',
+        '..222EEEE777777EEEE22...',
+        '.2222EEE77777777EEE222..',
+        '.222EEEE7777777EEEE222..',
+        '2222EEEE777AA77EEEE2222.',
+        '222EEEEE77AAAA77EEEE222.',
+        '222EEEEE77AAAA77EEEE222.',
+        '2222EEEE777AA77EEEE2222.',
+        '.222EEEE7777777EEEE222..',
+        '.2222EEE77777777EEE222..',
+        '..222EEEEEEEEEEEEEE22...',
+        '..2222EEEEEEEEEEEE222...',
+        '...22EEEE8888888EE222...',
+        '...2228888888888882222..',
+        '....22888888888882222...',
+        '.....228888888888222....',
+        '......22222222222.......',
+        '........................',
+    ],
+ 
     // Heart icon, 7x6
     heart: [
         '.8.8.8.',
@@ -156,7 +184,7 @@ const SPRITE_DATA = {
         '..888..',
         '...8...',
     ],
-
+ 
     // Heart empty, 7x6
     heartEmpty: [
         '.5.5.5.',
@@ -166,7 +194,7 @@ const SPRITE_DATA = {
         '..555..',
         '...5...',
     ],
-
+ 
     // Muzzle flash, 5x5
     muzzleFlash: [
         '..A..',
@@ -175,7 +203,7 @@ const SPRITE_DATA = {
         '.AAA.',
         '..A..',
     ],
-
+ 
     // Health pickup, 7x7
     pickupHealth: [
         '..BBB..',
@@ -186,7 +214,7 @@ const SPRITE_DATA = {
         '..BBB..',
         '.......',
     ],
-
+ 
     // Rapid fire pickup, 7x7
     pickupRapid: [
         '..AAA..',
@@ -197,7 +225,7 @@ const SPRITE_DATA = {
         '..AAAA.',
         '.......',
     ],
-
+ 
     // Spread shot pickup, 7x7
     pickupSpread: [
         'C...C..',
@@ -208,8 +236,30 @@ const SPRITE_DATA = {
         '.C.C...',
         'C...C..',
     ],
+ 
+    // Shotgun pickup, 7x7 — orange wide blast icon
+    pickupShotgun: [
+        '9.9.9.9',
+        '.9.9.9.',
+        '..999..',
+        '9999999',
+        '..999..',
+        '.9.9.9.',
+        '9.9.9.9',
+    ],
+ 
+    // Shield pickup, 7x7 — cyan shield shape
+    pickupShield: [
+        '.CCCCC.',
+        'CCCCCCC',
+        'CC777CC',
+        'C77777C',
+        'C77777C',
+        '.C777C.',
+        '..CCC..',
+    ],
 };
-
+ 
 // Build a sprite from pixel data into an offscreen canvas
 function buildSprite(rows) {
     const h = rows.length;
@@ -229,7 +279,7 @@ function buildSprite(rows) {
     }
     return c;
 }
-
+ 
 // Pre-build all sprites into a cache
 const spriteCache = {};
 function initSprites() {
@@ -237,12 +287,12 @@ function initSprites() {
         spriteCache[name] = buildSprite(SPRITE_DATA[name]);
     }
 }
-
+ 
 // Draw a sprite centered at (x, y)
 function drawSprite(ctx, sprite, x, y) {
     ctx.drawImage(sprite, Math.round(x - sprite.width / 2), Math.round(y - sprite.height / 2));
 }
-
+ 
 // Draw a sprite centered at (x, y), rotated by angle (radians)
 function drawRotated(ctx, sprite, x, y, angle) {
     ctx.save();
