@@ -8,12 +8,12 @@ A browser-based, top-down retro shooter built with vanilla JavaScript and HTML5 
 
 ## 🕹️ Gameplay
 
-You're a lone gunslinger dropped into a pixel-art arena. Enemies close in from all directions — move fast, aim true, and don't let them reach you.
+You're a lone gunslinger dropped into a pixel-art arena. Enemies close in from all directions — move fast, aim true, and survive long enough to face the boss at the end of every level.
 
-- **Move** with the arrow keys
+- **Move** with the arrow keys or WASD
 - **Aim** by moving your mouse
 - **Shoot** by clicking
-- **Survive** through increasingly tough waves as you progress through levels
+- **Survive** through waves of enemies, grab power-ups, and take down the boss to advance
 
 ---
 
@@ -21,10 +21,16 @@ You're a lone gunslinger dropped into a pixel-art arena. Enemies close in from a
 
 - 🎨 Pixel art sprites with character animations
 - 🔫 Mouse-aimed shooting with directional gun
-- 👾 Enemies spawning from multiple angles
-- 📈 Level progression with increasing difficulty
-- 🎵 Retro audio effects via Web Audio API
-- 🖥️ Menu screen and clear level transitions
+- 👾 4 enemy types — crawler, sprinter, shooter, tank — each with unique AI
+- 💀 **Boss fights** — every level ends with a 2-phase boss that changes behavior at 50% HP
+- 🌟 **Cinematic boss death** — multi-ring particle explosion with screen shake
+- 💥 **Particle system** — every kill, hit, and pickup has juicy visual feedback
+- 📳 **Screen shake** — scales with damage taken and explosion size
+- 🔫 **5 power-ups** — health, rapid fire, spread shot, shotgun, and shield
+- 🏆 **High score board** — top 5 scores saved locally with level and date
+- 📈 5 levels with increasing difficulty and clear progression
+- 🎵 Procedural retro audio via Web Audio API
+- 🖥️ Menu screen with play tab and scores tab
 - 💯 Pure vanilla JS — no frameworks, no build step
 
 ---
@@ -38,7 +44,10 @@ cd retro-shooter
 
 Then open `index.html` in your browser — that's it. No server required.
 
-> **Tip:** If you want a local dev server, `npx serve .` works great.
+> **Tip:** For a local dev server, run `npx serve .` and open `http://localhost:3000`
+
+**Play it online:** Once GitHub Pages is enabled, the game is live at:
+`https://birgeb23.github.io/retro-shooter`
 
 ---
 
@@ -47,7 +56,7 @@ Then open `index.html` in your browser — that's it. No server required.
 ```
 retro-shooter/
 ├── index.html     # Entry point — game canvas and layout
-├── game.js        # Core game loop, levels, enemies, input handling
+├── game.js        # Core game loop, levels, enemies, boss AI, input handling
 ├── sprites.js     # Pixel art sprite definitions and animations
 ├── audio.js       # Sound effects using the Web Audio API
 └── .gitignore
@@ -59,12 +68,43 @@ retro-shooter/
 
 | Action | Input |
 |--------|-------|
-| Move Up | `↑` Arrow Key |
-| Move Down | `↓` Arrow Key |
-| Move Left | `←` Arrow Key |
-| Move Right | `→` Arrow Key |
+| Move | `↑ ↓ ← →` or `W A S D` |
 | Aim | Mouse |
 | Shoot | Left Click |
+| Navigate menu | `← →` Arrow Keys |
+| Confirm / Start | `Enter` or `Space` |
+
+---
+
+## 👾 Enemies
+
+| Enemy | Behavior |
+|-------|----------|
+| **Crawler** | Steadily moves toward you |
+| **Sprinter** | Winds up then dashes at high speed |
+| **Shooter** | Keeps distance and fires at you |
+| **Tank** | Slow, high HP, fires large slow bullets |
+| **Boss** | Phase 1: charges + 3-bullet spread. Phase 2 (50% HP): orbits + 5-bullet rings |
+
+---
+
+## ⚡ Power-ups
+
+| Icon Color | Power-up | Effect |
+|-----------|----------|--------|
+| 🟢 Green cross | Health | Restores 1 HP |
+| 🟡 Yellow arrows | Rapid Fire | 2.5× fire rate for 8s |
+| 🔵 Blue spread | Spread Shot | 3-bullet spread for 8s |
+| 🟠 Orange burst | Shotgun | 6-pellet blast for 8s |
+| 🟣 Purple shield | Shield | Absorbs damage for 12s |
+
+> The boss always drops a health pack and shield on death.
+
+---
+
+## 🏆 High Score Board
+
+Your top 5 scores are saved in your browser's local storage. View them from the main menu (use arrow keys to switch to the Scores tab) or check your ranking on the Game Over screen.
 
 ---
 
@@ -72,10 +112,10 @@ retro-shooter/
 
 - HTML5 Canvas for rendering
 - Vanilla JavaScript — no libraries
-- Web Audio API for sound
+- Web Audio API for procedural sound effects
 
 ---
 
 ## 🙌 Acknowledgements
 
-Built for fun as a personal project. Inspired by classic top-down arcade shooters.
+Built for fun as a personal portfolio project. Inspired by classic top-down arcade shooters.
